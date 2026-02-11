@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <SignedIn>
-          <AdminDashboard />
+          <UserDashboard />
         </SignedIn>
         <SignedOut>
           <Login />

@@ -21,7 +21,7 @@ const VerifyEmail = () => {
     try {
       const res = await signUp.attemptEmailAddressVerification({ code });
       await setActive({ session: res.createdSessionId });
-      navigate("/dashboard", {replace:true});
+      navigate("/userdashboard", {replace:true});
     } catch (err) {
       setError(err.errors?.[0]?.message || "Invalid verification code");
     } finally {

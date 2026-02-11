@@ -9,6 +9,8 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [needsOtp, setNeedsOtp] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSignIn = async (e) => {
@@ -18,13 +20,37 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const result = await signIn.create({
-        identifier: email,
-        password,
-      });
+      // Step 1: Try password login
+      if (!needsOtp) {
+        const result = await signIn.create({
+          identifier: email,
+          password,
+        });
 
-      await setActive({ session: result.createdSessionId });
-      navigate("/", {replace:true});
+        if (result.status === "complete") {
+          await setActive({ session: result.createdSessionId });
+          navigate("/", { replace: true });
+        }
+
+        if (result.status === "needs_second_factor") {
+          setNeedsOtp(true); // Show OTP field
+        }
+      } 
+      
+      // Step 2: Handle OTP
+      else {
+        const secondFactorAttempt = await signIn.attemptSecondFactor({
+          code: otp,
+        });
+
+        if (secondFactorAttempt.status === "complete") {
+          await setActive({
+            session: secondFactorAttempt.createdSessionId,
+          });
+          navigate("/", { replace: true });
+        }
+      }
+
     } catch (err) {
       alert(err.errors?.[0]?.message || "Sign in failed");
     } finally {
@@ -38,36 +64,62 @@ const Login = () => {
         <h2 className="login-title">Sign In</h2>
 
         <form onSubmit={handleSignIn}>
-          <input
-            type="email"
-            placeholder="Email or Username"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="login-input"
-          />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="login-input"
-          />
+          {/* EMAIL */}
+          {!needsOtp && (
+            <>
+              <input
+                type="email"
+                placeholder="Email or Username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="login-input"
+              />
+
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="login-input"
+              />
+            </>
+          )}
+
+          {/* OTP FIELD */}
+          {needsOtp && (
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              required
+              className="login-input"
+            />
+          )}
 
           <div className="login-links-row">
-            <Link to="/reset-password" className="forgot-link">
-              Forgot Password?
-            </Link>
+            {!needsOtp && (
+              <>
+                <Link to="/reset-password" className="forgot-link">
+                  Forgot Password?
+                </Link>
 
-            <Link to="/register" className="register-link">
-              Don't have an account?
-            </Link>
+                <Link to="/register" className="register-link">
+                  Don't have an account?
+                </Link>
+              </>
+            )}
           </div>
 
           <button className="login-button" type="submit" disabled={loading}>
-            {loading ? "Signing in..." : "Sign In"}
+            {loading
+              ? "Processing..."
+              : needsOtp
+              ? "Verify OTP"
+              : "Sign In"}
           </button>
         </form>
       </div>

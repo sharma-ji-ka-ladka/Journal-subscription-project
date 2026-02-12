@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useSignUp } from "@clerk/clerk-react";
+import { useSignUp, useUser } from "@clerk/clerk-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./VerifyEmail.css";
 
 const VerifyEmail = () => {
-  const { signUp, setActive, isLoaded } = useSignUp();
+  const { signUp, isLoaded } = useSignUp();
+  const { isSignedIn, user } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,23 +24,40 @@ const VerifyEmail = () => {
     setError("");
 
     try {
-      const res = await signUp.attemptEmailAddressVerification({ code });
+      await signUp.attemptEmailAddressVerification({ code });
 
-      if (res.status === "complete") {
-        await setActive({ session: res.createdSessionId });
+      // 🔥 Give Clerk time to activate session
+      setTimeout(async () => {
+        if (isSignedIn) {
 
-        //connect to backned post-verification
-        await axios.post("http://localhost:8080/api/register/pending", {
-          ...formData,
-          clerkUserId: res.createdUserId,
-          status: "PENDING_PAYMENT"
-        });
+          // Save to backend
+          if (formData) {
+            await axios.post("http://localhost:8080/api/register/pending", {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phone: formData.phone,
+              address: formData.address,
+              duration: formData.duration,
+              isPaid: false
+            });
+          }
 
-        navigate("/payment-gateway");
-      }
+          navigate("/payment-gateway");
+        }
+      }, 500);
 
     } catch (err) {
-      setError(err.errors?.[0]?.message || "Invalid verification code");
+      console.log("FULL ERROR:", err);
+
+      if (
+        err.errors?.[0]?.message?.toLowerCase().includes("already") ||
+        err.errors?.[0]?.message?.toLowerCase().includes("session")
+      ) {
+        navigate("/payment-gateway");
+      } else {
+        setError(err.errors?.[0]?.message || "Invalid verification code");
+      }
     } finally {
       setLoading(false);
     }
@@ -49,10 +67,6 @@ const VerifyEmail = () => {
     <div className="verify-page">
       <div className="verify-card">
         <h2 className="verify-title">Verify Your Email</h2>
-
-        <p className="verify-subtitle">
-          Enter the verification code sent to your email.
-        </p>
 
         <form onSubmit={handleVerify}>
           <input

@@ -1,7 +1,5 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import UserSidebar from "./UserSidebar";
-import Navbar from "./Navbar";
 
 const UserDashboard = () => {
   return (
@@ -10,7 +8,6 @@ const UserDashboard = () => {
       <UserSidebar />
 
       <div className="flex-1 ml-24">
-        <Navbar />
 
         <div className="p-6">
           <h1 className="text-3xl font-bold mb-4">Welcome User!</h1>

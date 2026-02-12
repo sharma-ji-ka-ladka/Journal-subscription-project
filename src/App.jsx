@@ -9,22 +9,33 @@ import AdminDashboard from './Pages/Dashboard/AdminDashboard/Dashboard';
 
 import UserDashboard from "./Pages/Dashboard/UserDashboard/Dashboard/Dashboard";
 import SubscriptionForm from './Pages/Components/Subscriptions/SubscriptionForm';
+import BrowseJournals from './Pages/Dashboard/UserDashboard/BrowseJournals/BrowseJournals';
+import UserLayout from './UserLayout';
+import Subscriptions from './Pages/Dashboard/UserDashboard/Subscriptions/Subscriptions';
+import { Settings } from 'lucide-react';
+import Support from './Pages/Dashboard/UserDashboard/Support/Support';
+import Payments from './Pages/Dashboard/UserDashboard/Payments/Payments';
+import Profile from './Pages/Dashboard/UserDashboard/Profile/Profile';
 
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <>
-        <SignedIn>
-          <UserDashboard />
-        </SignedIn>
-        <SignedOut>
-          <Login />
-        </SignedOut>
-      </>
-    ),
-  },
+  path: "/userdashboard",
+  element: (
+    <SignedIn>
+      <UserLayout/>
+    </SignedIn>
+  ),
+  children: [
+    { index: true, element: <UserDashboard /> },
+    { path: "browse", element: <BrowseJournals /> },
+    { path: "subscriptions", element: <Subscriptions /> },
+    { path: "payments", element: <Payments /> },
+    { path: "profile", element: <Profile /> },
+    { path: "settings", element: <Settings /> },
+    { path: "support", element: <Support /> },
+  ],
+},
   {
     path: '/login',
     element: <Login />,
@@ -60,6 +71,7 @@ const router = createBrowserRouter([
     ),
     
    },
+
    {
       path: "/payment-gateway",
       element: <PaymentGateway />

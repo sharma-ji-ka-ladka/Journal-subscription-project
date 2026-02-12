@@ -6,19 +6,21 @@ import VerifyEmail from './Pages/VerifyEmail/VerifyEmail';
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import PaymentGateway from './Pages/Components/PaymentGateway/PaymentGateway';
 import AdminDashboard from './Pages/Dashboard/AdminDashboard/Dashboard';
-
+import Profile from './Pages/Dashboard/UserDashboard/Profile/Profile';
 import UserDashboard from "./Pages/Dashboard/UserDashboard/Dashboard/Dashboard";
 import SubscriptionForm from './Pages/Components/Subscriptions/SubscriptionForm';
+
 import BrowseJournals from './Pages/Dashboard/UserDashboard/BrowseJournals/BrowseJournals';
 import UserLayout from './UserLayout';
 import Subscriptions from './Pages/Dashboard/UserDashboard/Subscriptions/Subscriptions';
 import { Settings } from 'lucide-react';
 import Support from './Pages/Dashboard/UserDashboard/Support/Support';
 import Payments from './Pages/Dashboard/UserDashboard/Payments/Payments';
-import Profile from './Pages/Dashboard/UserDashboard/Profile/Profile';
+
 
 
 const router = createBrowserRouter([
+  
   {
   path: "/userdashboard",
   element: (
@@ -35,7 +37,19 @@ const router = createBrowserRouter([
     { path: "settings", element: <Settings /> },
     { path: "support", element: <Support /> },
   ],
-},
+},{
+    path: '/',
+    element: (
+      <>
+        <SignedIn>
+          <UserDashboard />
+        </SignedIn>
+        <SignedOut>
+          <Login />
+        </SignedOut>
+      </>
+    ),
+  },
   {
     path: '/login',
     element: <Login />,

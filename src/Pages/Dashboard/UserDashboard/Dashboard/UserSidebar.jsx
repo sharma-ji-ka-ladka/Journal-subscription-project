@@ -10,28 +10,67 @@ import {
 } from "react-icons/fa";
 
 const UserSidebar = () => {
+
+  const linkStyle = (isActive) => ({
+    display: "flex",
+    alignItems: "center",
+    gap: "14px",
+    padding: "12px 16px",
+    borderRadius: "8px",
+    textDecoration: "none",
+    color: "white",
+    backgroundColor: isActive ? "#9b59b6" : "transparent",
+    transition: "0.3s ease",
+    fontWeight: 500,
+  });
+
   return (
-    <div className="bg-gray-800 text-white h-screen fixed left-0 top-0 w-64 shadow-lg flex flex-col">
+    <div style={{
+        height: "100vh",
+        width: "360px",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        display: "flex",
+        flexDirection: "column",
+        background: "linear-gradient(135deg, #71b7e6 0%, #9b59b6 100%)",
+        boxShadow: "4px 0 10px rgba(0,0,0,0.1)",
+        paddingTop: "15px",
+      }}>
       
-      {/* Sidebar Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-700 h-20 flex items-center justify-center shadow-md">
-        <div className="flex items-center space-x-6">
+      <div style={{
+          textAlign: "center",
+          marginBottom: "20px",
+          display:"flex",
+          justifyContent: "center",
+          alignItems:"center"
+        }}>
+        <div style={{paddingLeft:"20px"}}>
           <img
-            src="/image.svg"
-            alt="Journal Hub Logo"
-            className="h-16 w-16 object-cover"
-          />
+          src="/image.svg"
+          alt="Journal Hub Logo"
+          style={{
+            height: "160px",
+            width: "160px",
+            objectFit: "cover",
+            marginBottom: "10px",
+          }}
+        />
         </div>
         <h3
-          className="text-2xl font-semibold tracking-wider text-white"
-          style={{ fontFamily: "'Pacifico', cursive", letterSpacing: "2px" }}
+          style={{
+            fontSize: "54px",
+            fontWeight: 600,
+            color: "white",
+            fontFamily: "'Pacifico', cursive",
+            letterSpacing: "2.5px",
+          }}
         >
           Journal Hub
         </h3>
       </div>
 
-      {/* Sidebar Links */}
-      <div className="px-4 space-y-2 mt-4">
+      <div style={{ fontSize:"25px", padding: "0 20px", display: "flex", flexDirection: "column", gap: "10px" }}>
         <NavLink
           to="/userdashboard"
           className={({ isActive }) =>

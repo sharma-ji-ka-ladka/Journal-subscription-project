@@ -5,8 +5,6 @@ import { StrictMode } from 'react'
   import { ClerkProvider } from '@clerk/clerk-react'
   import './index.css'
 
-
-  // Import your Publishable Key
   const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
   if (!PUBLISHABLE_KEY) {

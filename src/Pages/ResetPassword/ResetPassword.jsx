@@ -17,7 +17,6 @@ const ResetPassword = () => {
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
 
-  // STEP 1: Send reset code
   const sendResetCode = async (e) => {
     e.preventDefault();
     if (!isLoaded) return;
@@ -38,7 +37,7 @@ const ResetPassword = () => {
     }
   };
 
-  // STEP 2: Verify code & reset password
+  //Verify code and reset password
   const resetPassword = async (e) => {
     e.preventDefault();
     if (!isLoaded) return;

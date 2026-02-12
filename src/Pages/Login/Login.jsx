@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Step 1: Try password login
+      //password login
       if (!needsOtp) {
         const result = await signIn.create({
           identifier: email,
@@ -33,11 +33,10 @@ const Login = () => {
         }
 
         if (result.status === "needs_second_factor") {
-          setNeedsOtp(true); // Show OTP field
+          setNeedsOtp(true);
         }
       } 
       
-      // Step 2: Handle OTP
       else {
         const secondFactorAttempt = await signIn.attemptSecondFactor({
           code: otp,
@@ -65,7 +64,6 @@ const Login = () => {
 
         <form onSubmit={handleSignIn}>
 
-          {/* EMAIL */}
           {!needsOtp && (
             <>
               <input
@@ -88,7 +86,6 @@ const Login = () => {
             </>
           )}
 
-          {/* OTP FIELD */}
           {needsOtp && (
             <input
               type="text"

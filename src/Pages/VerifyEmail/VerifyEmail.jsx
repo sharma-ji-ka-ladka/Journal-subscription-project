@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { useSignUp } from "@clerk/clerk-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import "./VerifyEmail.css";
 
 const VerifyEmail = () => {
   const { signUp, setActive, isLoaded } = useSignUp();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const formData = location.state?.formData;
 
   const handleVerify = async (e) => {
     e.preventDefault();
@@ -20,8 +24,20 @@ const VerifyEmail = () => {
 
     try {
       const res = await signUp.attemptEmailAddressVerification({ code });
-      await setActive({ session: res.createdSessionId });
-      navigate("/userdashboard", {replace:true});
+
+      if (res.status === "complete") {
+        await setActive({ session: res.createdSessionId });
+
+        //connect to backned post-verification
+        await axios.post("http://localhost:8080/api/register/pending", {
+          ...formData,
+          clerkUserId: res.createdUserId,
+          status: "PENDING_PAYMENT"
+        });
+
+        navigate("/payment-gateway");
+      }
+
     } catch (err) {
       setError(err.errors?.[0]?.message || "Invalid verification code");
     } finally {
@@ -32,10 +48,10 @@ const VerifyEmail = () => {
   return (
     <div className="verify-page">
       <div className="verify-card">
-        <h2 className="verify-title">Verify Email</h2>
+        <h2 className="verify-title">Verify Your Email</h2>
 
         <p className="verify-subtitle">
-          Enter the verification code sent to your email
+          Enter the verification code sent to your email.
         </p>
 
         <form onSubmit={handleVerify}>
@@ -51,7 +67,7 @@ const VerifyEmail = () => {
           {error && <p className="verify-error">{error}</p>}
 
           <button className="verify-button" disabled={loading}>
-            {loading ? "Verifying..." : "Verify"}
+            {loading ? "Verifying..." : "Verify Email"}
           </button>
         </form>
       </div>
@@ -60,4 +76,3 @@ const VerifyEmail = () => {
 };
 
 export default VerifyEmail;
-

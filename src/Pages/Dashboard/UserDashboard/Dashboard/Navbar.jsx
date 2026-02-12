@@ -1,13 +1,40 @@
-import { SignOutButton } from "@clerk/clerk-react";
+import { SignOutButton, useUser } from "@clerk/clerk-react";
 
 const Navbar = () => {
 
+  const {user} = useUser();
+  const firstName= user.firstName
+
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-blue-700 h-16 flex items-center justify-end px-6 shadow-md">
-      <h2 className="text-xl font-bold text-white mr-6">Hello, User</h2>
+    <div style={{
+        height: "75px",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        padding: "0 12px",
+        background: "linear-gradient(135deg, #71b7e6 0%, #9b59b6 100%)",
+        boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+      }}>
+      <h2 style={{
+          color: "white",
+          fontSize:"30px",
+          fontWeight: "750",
+          marginRight: "20px"
+        }}>Hello, {firstName}</h2>
+
       <SignOutButton redirectUrl="/login">
         <button
-          className="bg-white text-blue-700 font-semibold px-4 py-1.5 rounded-md hover:bg-gray-100 transition"
+          style={{
+            backgroundColor: "white",
+            color: "#9b59b6",
+            fontWeight: "600",
+            padding: "6px 30px",
+            borderRadius: "6px",
+            border: "none",
+            cursor: "pointer",
+            
+            fontSize:"24px",
+          }}
         >
           Logout
         </button>

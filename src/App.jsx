@@ -2,26 +2,14 @@ import './App.css';
 import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './Pages/Login/Login';
-import Register from './Pages/Register/Register';
 import VerifyEmail from './Pages/VerifyEmail/VerifyEmail';
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
-
-//Admin Dashboard 
+import PaymentGateway from './Pages/Components/PaymentGateway/PaymentGateway';
 import AdminDashboard from './Pages/Dashboard/AdminDashboard/Dashboard';
 
-//User Dashboard 
 import UserDashboard from "./Pages/Dashboard/UserDashboard/Dashboard/Dashboard";
-// import BrowseJournals from "./Pages/Dashboard/UserDashboard/BrowseJournals/BrowseJournals";
-// import Subscriptions from "./Pages/Dashboard/UserDashboard/Subscriptions/Subscriptions";
-// import Payments from "./Pages/Dashboard/UserDashboard/Payments/Payments";
-// import Profile from "./Pages/Dashboard/UserDashboard/Profile/Profile";
-// import Settings from "./Pages/Dashboard/UserDashboard/Settings/Settings";
-// import Support from "./Pages/Dashboard/UserDashboard/Support/Support";
+import SubscriptionForm from './Pages/Components/Subscriptions/SubscriptionForm';
 
-
-
-
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 const router = createBrowserRouter([
   {
@@ -43,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/register',
-    element: <Register/>
+    element: <SubscriptionForm/>
   },
   {
     path: '/verify-email',
@@ -54,7 +42,6 @@ const router = createBrowserRouter([
   element: <ResetPassword />,
   },
 
-  //Admin Dashboard Paths
   {
     path: '/Admindashboard',
     element: (
@@ -64,7 +51,6 @@ const router = createBrowserRouter([
     ),
   },
 
-  //User Dashboard Paths
   {
     path: '/userdashboard',
     element: (
@@ -72,16 +58,12 @@ const router = createBrowserRouter([
         <UserDashboard />
       </SignedIn>
     ),
-  //   children: [
-  //   // { path: '', element: <DashboardHome /> }, // optional home component
-  //   { path: 'browse', element: <BrowseJournals /> },
-  //   { path: 'subscriptions', element: <Subscriptions /> },
-  //   { path: 'payments', element: <Payments /> },
-  //   { path: 'profile', element: <Profile /> },
-  //   { path: 'settings', element: <Settings /> },
-  //   { path: 'support', element: <Support /> },
-  // ],
+    
    },
+   {
+      path: "/payment-gateway",
+      element: <PaymentGateway />
+  },
 
 ]);
 

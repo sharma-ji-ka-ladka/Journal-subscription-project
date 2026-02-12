@@ -13,11 +13,9 @@ import SubscriptionForm from './Pages/Components/Subscriptions/SubscriptionForm'
 import BrowseJournals from './Pages/Dashboard/UserDashboard/BrowseJournals/BrowseJournals';
 import UserLayout from './UserLayout';
 import Subscriptions from './Pages/Dashboard/UserDashboard/Subscriptions/Subscriptions';
-import { Settings } from 'lucide-react';
 import Support from './Pages/Dashboard/UserDashboard/Support/Support';
 import Payments from './Pages/Dashboard/UserDashboard/Payments/Payments';
-
-
+import Settings from './Pages/Dashboard/UserDashboard/Settings/Settings';
 
 const router = createBrowserRouter([
   
@@ -75,16 +73,6 @@ const router = createBrowserRouter([
       </SignedIn>
     ),
   },
-
-  {
-    path: '/userdashboard',
-    element: (
-      <SignedIn>
-        <UserDashboard />
-      </SignedIn>
-    ),
-    
-   },
 
    {
       path: "/payment-gateway",

@@ -63,7 +63,6 @@ const BrowseJournals = () => {
     <div>
       <h2 className="text-2xl font-bold mb-6">Browse Journals</h2>
 
-      {/* 🔥 Dropdown */}
       <div className="mb-6">
         <label className="mr-3 font-medium">Select Category:</label>
         <select

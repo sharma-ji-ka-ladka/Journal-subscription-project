@@ -9,7 +9,7 @@ const Profile = () => {
       Id: 1,
       Title: "Nature & Science",
       Category: "Science",
-      Price: "29.99",
+      Price: "299",
       Frequency: "/mo",
       Description: "The world's leading multidisciplinary science journal."
     },
@@ -17,7 +17,7 @@ const Profile = () => {
       Id: 2,
       Title: "Tech Weekly",
       Category: "Technology",
-      Price: "15.00",
+      Price: "199",
       Frequency: "/mo",
       Description: "Deep dives into the latest tech trends."
     },
@@ -25,7 +25,7 @@ const Profile = () => {
       Id: 3,
       Title: "Modern Architect",
       Category: "Design",
-      Price: "22.50",
+      Price: "249",
       Frequency: "/mo",
       Description: "Inspiration for sustainable design."
     }
@@ -69,9 +69,13 @@ const Profile = () => {
               <p className="text-gray-500 text-sm">Premium Member</p>
             </div>
           </div>
-          <div className="text-right">
-            <p className="text-gray-400 text-xs uppercase font-bold tracking-wider">Total Monthly</p>
-            <p className="text-3xl font-extrabold text-gray-900">{totalCost}</p>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+              {user?.fullName || "Guest User"}
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              Premium Member
+            </p>
           </div>
         </div>
 
@@ -116,7 +120,6 @@ const Profile = () => {
         </div>
       </div>
     </div>
-  );
+    );
 };
-
 export default Profile;

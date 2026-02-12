@@ -5,17 +5,24 @@ import UserSidebar from "./Pages/Dashboard/UserDashboard/Dashboard/UserSidebar";
 const UserLayout = () => {
   return (
     <div style={{ display: "flex" }}>
-      
+
       <UserSidebar />
 
-      <div style={{ 
-        marginLeft: "250px", 
-        width: "100%" 
+      <div style={{
+        marginLeft: "360px",
+        width: "calc(100% - 360px)",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column"
       }}>
 
         <Navbar />
 
-        <div style={{ padding: "30px" }}>
+        <div style={{
+          padding: "30px",
+          flex: 1,
+          backgroundColor: "#f4f6f9"
+        }}>
           <Outlet />
         </div>
 
